@@ -1,0 +1,42 @@
+PODS:
+  - AlicloudPush (1.9.9):
+    - AlicloudUT
+    - AlicloudUtils
+  - AlicloudUT (5.2.0.8):
+    - AlicloudUTDID
+  - AlicloudUTDID (1.1.0.19)
+  - AlicloudUtils (1.3.7):
+    - AlicloudUTDID
+  - Flutter (1.0.0)
+  - rammus (0.0.1):
+    - AlicloudPush (~> 1.9.9)
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - rammus (from `.symlinks/plugins/rammus/ios`)
+
+SPEC REPOS:
+  https://github.com/aliyun/aliyun-specs.git:
+    - AlicloudPush
+    - AlicloudUT
+    - AlicloudUTDID
+    - AlicloudUtils
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  rammus:
+    :path: ".symlinks/plugins/rammus/ios"
+
+SPEC CHECKSUMS:
+  AlicloudPush: c7cfdbd6a8034507c8772a052737f13ce607f32e
+  AlicloudUT: 49bfd91133899e693d1271b483ba7e64423b609e
+  AlicloudUTDID: 79f509c3e997ef85fe307f8bfb2bb3be27f7e205
+  AlicloudUtils: ec441e41aa746d779c2c3958aa9489c59cb434ea
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  rammus: b742412b5535e367fce5c30b82d36c8fcb06271a
+
+PODFILE CHECKSUM: 7932c6260c2bcee45c969bb2bec9a42f77ba7429
+
+COCOAPODS: 1.10.1
