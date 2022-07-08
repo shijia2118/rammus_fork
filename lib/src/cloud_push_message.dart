@@ -5,14 +5,13 @@ class CloudPushMessage {
   final String? content;
   final String? traceInfo;
 
-  CloudPushMessage(
-      {this.messageId, this.appId, this.title, this.content, this.traceInfo});
+  CloudPushMessage({this.messageId, this.appId, this.title, this.content, this.traceInfo});
 }
 
 class OnNotification {
   final String? title;
   final String? summary;
-  final Map? extras;
+  final String? extras;
 
   OnNotification(this.title, this.summary, this.extras);
 }
@@ -24,8 +23,7 @@ class OnNotificationOpened {
   final String? subtitle;
   final int? badge;
 
-  OnNotificationOpened(
-      this.title, this.summary, this.extras, this.subtitle, this.badge);
+  OnNotificationOpened(this.title, this.summary, this.extras, this.subtitle, this.badge);
 }
 
 class OnNotificationClickedWithNoAction {
@@ -44,6 +42,6 @@ class OnNotificationReceivedInApp {
   final String? openActivity;
   final String? openUrl;
 
-  OnNotificationReceivedInApp(this.title, this.summary, this.extras,
-      this.openType, this.openActivity, this.openUrl);
+  OnNotificationReceivedInApp(
+      this.title, this.summary, this.extras, this.openType, this.openActivity, this.openUrl);
 }
