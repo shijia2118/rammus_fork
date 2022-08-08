@@ -15,12 +15,15 @@ A new Flutter plugin for AliCloud push.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'AlicloudPush', '~> 1.9.9'
+  # s.dependency 'AlicloudPush', '~> 1.9.9'
+  s.preserve_paths = 'AlicloudUtils.framework', 'CloudPushSDK.framework', 'UTMini.framework'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework AlicloudUtils, -framework CloudPushSDK, -framework UTMini' }
+  s.vendored_frameworks = 'AlicloudUtils.framework', 'CloudPushSDK.framework', 'UTMini.framework'
 
   s.frameworks = ["SystemConfiguration", "CoreTelephony"]
   s.libraries = ["z", "sqlite3.0", "resolv"]
   s.static_framework = true
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
 end
 
