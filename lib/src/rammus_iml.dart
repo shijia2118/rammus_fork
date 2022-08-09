@@ -100,7 +100,7 @@ Future<CommonCallbackResult> turnOnPushChannel() async {
   return CommonCallbackResult(
     isSuccessful: result["isSuccessful"],
     response: result["response"],
-    errorCode: result["errorCode"],
+    errorCode: result["errorCode"]?.toString(),
     errorMessage: result["errorMessage"],
   );
 }
@@ -110,7 +110,7 @@ Future<CommonCallbackResult> turnOffPushChannel() async {
   return CommonCallbackResult(
     isSuccessful: result["isSuccessful"],
     response: result["response"],
-    errorCode: result["errorCode"],
+    errorCode: result["errorCode"]?.toString(),
     errorMessage: result["errorMessage"],
   );
 }
@@ -128,7 +128,7 @@ Future<CommonCallbackResult> bindAccount(String account) async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -138,7 +138,7 @@ Future<CommonCallbackResult> unbindAccount() async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -149,7 +149,7 @@ Future<CommonCallbackResult> bindPhoneNumber(String phoneNumber) async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -161,7 +161,7 @@ Future<CommonCallbackResult> unbindPhoneNumber() async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -185,7 +185,7 @@ Future<CommonCallbackResult> bindTag(
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -208,7 +208,7 @@ Future<CommonCallbackResult> unbindTag(
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -222,7 +222,7 @@ Future<CommonCallbackResult> listTags(CloudPushServiceTarget target) async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -237,7 +237,7 @@ Future<CommonCallbackResult> addAlias(String alias) async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -251,7 +251,7 @@ Future<CommonCallbackResult> removeAlias(String alias) async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }
@@ -265,7 +265,7 @@ Future<CommonCallbackResult> listAliases() async {
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
       response: result["response"],
-      errorCode: result["errorCode"],
+      errorCode: result["errorCode"]?.toString(),
       errorMessage: result["errorMessage"],
       iosError: result["iosError"]);
 }

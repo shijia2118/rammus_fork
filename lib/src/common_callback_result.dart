@@ -5,10 +5,11 @@ class CommonCallbackResult {
   final String? errorMessage;
   final String? iosError;
 
-  CommonCallbackResult(
-      {this.isSuccessful,
-      this.response,
-      this.errorCode,
-      this.errorMessage,
-      this.iosError});
+  CommonCallbackResult({
+    this.isSuccessful,
+    this.response,
+    this.errorCode,
+    this.errorMessage,
+    this.iosError,
+  });
 }
