@@ -43,10 +43,10 @@
           android:value="" />
         <meta-data
           android:name="com.vivo.push.app_id"
-          android:value="" />
+          android:value="105570684" />
         <meta-data
           android:name="com.vivo.push.api_key"
-          android:value="" />
+          android:value="796e2566168fd20f5514df47f168d718" />
         <meta-data
           android:name="com.gcm.push.send_id"
           android:value="" />

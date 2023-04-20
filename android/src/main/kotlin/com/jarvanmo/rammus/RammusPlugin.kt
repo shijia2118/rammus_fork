@@ -124,10 +124,10 @@ class RammusPlugin: FlutterPlugin, MethodCallHandler {
       Log.d(TAG, "正在注册魅族推送服务...")
       MeizuRegister.register(gottenApplication!!.applicationContext, meizuAppId, meizuAppKey)
     }
-    val vivoAppId = appInfo.metaData.getString("com.vivo.push.app_id")
-    val vivoApiKey = appInfo.metaData.getString("com.vivo.push.api_key")
-    if ((vivoAppId != null && vivoAppId.isNotBlank())
-            && (vivoApiKey != null && vivoApiKey.isNotBlank())){
+//    val vivoAppId = appInfo.metaData.getString("com.vivo.push.app_id")
+      val vivoAppId : Int = appInfo.metaData.getInt("com.vivo.push.app_id")
+      val vivoApiKey : String? = appInfo.metaData.getString("com.vivo.push.api_key")
+    if (vivoApiKey != null && vivoApiKey.isNotBlank()){
       Log.d(TAG, "正在注册Vivo推送服务...")
       VivoRegister.register(gottenApplication!!.applicationContext)
     }
