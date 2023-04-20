@@ -5,6 +5,7 @@ import android.os.Handler
 import android.util.Log
 import com.alibaba.sdk.android.push.AliyunMessageIntentService
 import com.alibaba.sdk.android.push.notification.CPushMessage
+import org.json.JSONObject
 
 /***
  * Created by mo on 2019-06-25
@@ -25,12 +26,19 @@ class RammusPushIntentService : AliyunMessageIntentService() {
 
     override fun onNotification(context: Context, title: String?, summary: String?, extras: MutableMap<String, String>?) {
         Log.d("RammusPushIntentService","onNotification title is $title, summary is $summary, extras: $extras")
+        var jsonExtras: JSONObject? = null
+        if (extras != null) {
+            jsonExtras = JSONObject()
+            for (key in extras.keys){
+                jsonExtras.putOpt(key, extras[key])
+            }
+        }
         handler.postDelayed({
 
             RammusPushHandler.methodChannel?.invokeMethod("onNotification", mapOf(
                     "title" to title,
                     "summary" to summary,
-                    "extras" to extras
+                    "extras" to jsonExtras
             ))
         },1500)
     }
