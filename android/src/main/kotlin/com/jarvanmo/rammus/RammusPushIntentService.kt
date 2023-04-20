@@ -26,18 +26,11 @@ class RammusPushIntentService : AliyunMessageIntentService() {
 
     override fun onNotification(context: Context, title: String?, summary: String?, extras: MutableMap<String, String>?) {
         Log.d("RammusPushIntentService","onNotification title is $title, summary is $summary, extras: $extras")
-        var jsonExtras = JSONObject()
-        if (extras != null) {
-            for (key in extras.keys){
-                jsonExtras.putOpt(key, extras[key])
-            }
-        }
         handler.postDelayed({
-
             RammusPushHandler.methodChannel?.invokeMethod("onNotification", mapOf(
                     "title" to title,
                     "summary" to summary,
-                    "extras" to jsonExtras.toString()
+                    "extras" to extras
             ))
         },1500)
     }
