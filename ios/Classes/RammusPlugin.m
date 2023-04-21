@@ -72,8 +72,8 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
-    [self listenerOnChannelOpened];
-    [self registerMessageReceive];
+//    [self listenerOnChannelOpened];
+//    [self registerMessageReceive];
     [CloudPushSDK sendNotificationAck:launchOptions];
 
     return NO;

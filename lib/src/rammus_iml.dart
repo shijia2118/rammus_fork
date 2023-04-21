@@ -95,7 +95,7 @@ void register() {
 //  }
 
 /// 初始化
-Future<bool> init({required String appKey, required String appSecret}) async {
+Future<int> init({required String appKey, required String appSecret}) async {
   return await _channel
       .invokeMethod("init_push", {"appKey": appKey, "appSecret": appSecret});
 }
