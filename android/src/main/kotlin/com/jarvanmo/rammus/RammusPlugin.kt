@@ -25,8 +25,10 @@ class RammusPlugin: FlutterPlugin, MethodCallHandler {
 
   private lateinit var channel : MethodChannel
   private lateinit var pluginBinding: FlutterPlugin.FlutterPluginBinding
+  private var mContext : Context ?= null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+      mContext = flutterPluginBinding.applicationContext
     pluginBinding = flutterPluginBinding;
     channel = MethodChannel(pluginBinding.binaryMessenger, "com.jarvanmo/rammus")
     RammusPushHandler.methodChannel = channel
@@ -40,7 +42,7 @@ class RammusPlugin: FlutterPlugin, MethodCallHandler {
 
     @JvmStatic
     fun initPushService(application: Application){
-      gottenApplication = application
+//      gottenApplication = application
 //      PushServiceFactory.init(application.applicationContext)
 //      val pushService = PushServiceFactory.getCloudPushService()
 //      pushService.setPushIntentService(RammusPushIntentService::class.java)
@@ -72,12 +74,12 @@ class RammusPlugin: FlutterPlugin, MethodCallHandler {
   }
 
     private fun initPush(){
-        if (gottenApplication == null) {
+        if (mContext == null) {
             Log.w(TAG, "注册推送服务失败，请检查是否在运行本语句前执行了`RammusPlugin.initPushService`.")
             return;
         }
 
-        PushServiceFactory.init(gottenApplication!!.applicationContext)
+        PushServiceFactory.init(mContext)
         val pushService = PushServiceFactory.getCloudPushService()
         pushService.setPushIntentService(RammusPushIntentService::class.java)
 
