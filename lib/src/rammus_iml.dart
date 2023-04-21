@@ -19,17 +19,21 @@ StreamController<CommonCallbackResult> _initCloudChannelResultController =
 ///如果设备成功注册，将回调callback.onSuccess()方法。
 ///但如果注册服务器连接失败，则调用callback.onFailed方法，并且自动进行重新注册，直到onSuccess为止。（重试规则会由网络切换等时间自动触发。）
 ///请在网络通畅的情况下进行相关的初始化调试，如果网络不通，或者App信息配置错误，在onFailed方法中，会有相应的错误码返回，可参考错误处理
-Stream<CommonCallbackResult> get initCloudChannelResult => _initCloudChannelResultController.stream;
+Stream<CommonCallbackResult> get initCloudChannelResult =>
+    _initCloudChannelResultController.stream;
 
 ///用于接收服务端推送的消息。
 ///消息不会弹窗，而是回调该方法。
-StreamController<CloudPushMessage> _onMessageArrivedController = StreamController.broadcast();
+StreamController<CloudPushMessage> _onMessageArrivedController =
+    StreamController.broadcast();
 
-Stream<CloudPushMessage> get onMessageArrived => _onMessageArrivedController.stream;
+Stream<CloudPushMessage> get onMessageArrived =>
+    _onMessageArrivedController.stream;
 
 ///客户端接收到通知后，回调该方法。
 ///可获取到并处理通知相关的参数。
-StreamController<OnNotification> _onNotificationController = StreamController.broadcast();
+StreamController<OnNotification> _onNotificationController =
+    StreamController.broadcast();
 
 Stream<OnNotification> get onNotification => _onNotificationController.stream;
 
@@ -37,23 +41,27 @@ Stream<OnNotification> get onNotification => _onNotificationController.stream;
 StreamController<OnNotificationOpened> _onNotificationOpenedController =
     StreamController.broadcast();
 
-Stream<OnNotificationOpened> get onNotificationOpened => _onNotificationOpenedController.stream;
+Stream<OnNotificationOpened> get onNotificationOpened =>
+    _onNotificationOpenedController.stream;
 
 ///删除通知时回调该方法，通知删除上报由SDK自动完成。
-StreamController<String> _onNotificationRemovedController = StreamController.broadcast();
+StreamController<String> _onNotificationRemovedController =
+    StreamController.broadcast();
 
-Stream<String> get onNotificationRemoved => _onNotificationRemovedController.stream;
+Stream<String> get onNotificationRemoved =>
+    _onNotificationRemovedController.stream;
 
 ///打开无跳转逻辑(open=4)通知时回调该方法(v2.3.2及以上版本支持)，通知打开上报由SDK自动完成。
-StreamController<OnNotificationClickedWithNoAction> _onNotificationClickedWithNoActionController =
-    StreamController.broadcast();
+StreamController<OnNotificationClickedWithNoAction>
+    _onNotificationClickedWithNoActionController = StreamController.broadcast();
 
-Stream<OnNotificationClickedWithNoAction> get onNotificationClickedWithNoAction =>
-    _onNotificationClickedWithNoActionController.stream;
+Stream<OnNotificationClickedWithNoAction>
+    get onNotificationClickedWithNoAction =>
+        _onNotificationClickedWithNoActionController.stream;
 
 ///当用户创建自定义通知样式，并且设置推送应用内到达不创建通知弹窗时调用该回调，且此时不调用onNotification回调(v2.3.3及以上版本支持)
-StreamController<OnNotificationReceivedInApp> _onNotificationReceivedInAppController =
-    StreamController.broadcast();
+StreamController<OnNotificationReceivedInApp>
+    _onNotificationReceivedInAppController = StreamController.broadcast();
 
 Stream<OnNotificationReceivedInApp> get onNotificationReceivedInApp =>
     _onNotificationReceivedInAppController.stream;
@@ -86,13 +94,11 @@ void register() {
 //    return version;
 //  }
 
-///这个返回结果永远都是[true]，并不是SDK初始化结果
-///初始化结果请监听[initCloudChannelResult]
-///只能初始化ios
-//Future<bool> initCloudChannel({String appKey, String appSecret}) async {
-//  return await _channel.invokeMethod(
-//      "initCloudChannel", {"appKey": appKey, "appSecret": appSecret});
-//}
+/// 初始化
+Future<bool> init({required String appKey, required String appSecret}) async {
+  return await _channel
+      .invokeMethod("init_push", {"appKey": appKey, "appSecret": appSecret});
+}
 
 Future<CommonCallbackResult> turnOnPushChannel() async {
   var result = await _channel.invokeMethod("turnOnPushChannel");
@@ -178,9 +184,14 @@ Future<CommonCallbackResult> unbindPhoneNumber() async {
 ///alias 别名（仅当target = 3时生效）
 ///callback 回调
 Future<CommonCallbackResult> bindTag(
-    {@required CloudPushServiceTarget? target, List<String>? tags, String? alias}) async {
-  var result = await _channel.invokeMethod(
-      "bindTag", {"target": target!.index + 1, "tags": tags ?? <String>[], "alias": alias});
+    {@required CloudPushServiceTarget? target,
+    List<String>? tags,
+    String? alias}) async {
+  var result = await _channel.invokeMethod("bindTag", {
+    "target": target!.index + 1,
+    "tags": tags ?? <String>[],
+    "alias": alias
+  });
 
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
@@ -201,9 +212,14 @@ Future<CommonCallbackResult> bindTag(
 ///alias 别名（仅当target = 3时生效）
 ///callback 回调
 Future<CommonCallbackResult> unbindTag(
-    {@required CloudPushServiceTarget? target, List<String>? tags, String? alias}) async {
-  var result = await _channel.invokeMethod(
-      "unbindTag", {"target": target!.index + 1, "tags": tags ?? <String>[], "alias": alias});
+    {@required CloudPushServiceTarget? target,
+    List<String>? tags,
+    String? alias}) async {
+  var result = await _channel.invokeMethod("unbindTag", {
+    "target": target!.index + 1,
+    "tags": tags ?? <String>[],
+    "alias": alias
+  });
 
   return CommonCallbackResult(
       isSuccessful: result["isSuccessful"],
@@ -279,7 +295,12 @@ class NotificationChannel {
   final AndroidNotificationImportance importance;
 
   Map<String, dynamic> toJson() {
-    return {"id": id, "name": name, "description": description, "importance": importance.index + 1};
+    return {
+      "id": id,
+      "name": name,
+      "description": description,
+      "importance": importance.index + 1
+    };
   }
 }
 
@@ -297,7 +318,10 @@ Future setupNotificationManager(List<NotificationChannel> channels) async {
 ///设置推送通知显示方式
 ///    completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
 Future configureNotificationPresentationOption(
-    {bool none: false, bool sound: true, bool alert: true, bool badge: true}) async {
+    {bool none: false,
+    bool sound: true,
+    bool alert: true,
+    bool badge: true}) async {
   return _channel.invokeMethod("configureNotificationPresentationOption",
       {"none": none, "sound": sound, "alert": alert, "badge": badge});
 }
@@ -331,8 +355,10 @@ Future<dynamic> _handler(MethodCall methodCall) {
       traceInfo: methodCall.arguments["traceInfo"],
     ));
   } else if ("onNotification" == methodCall.method) {
-    _onNotificationController.add(OnNotification(methodCall.arguments["title"],
-        methodCall.arguments["summary"], methodCall.arguments["extras"].toString()));
+    _onNotificationController.add(OnNotification(
+        methodCall.arguments["title"],
+        methodCall.arguments["summary"],
+        methodCall.arguments["extras"].toString()));
   } else if ("onNotificationOpened" == methodCall.method) {
     _onNotificationOpenedController.add(OnNotificationOpened(
         methodCall.arguments["title"],
@@ -343,10 +369,9 @@ Future<dynamic> _handler(MethodCall methodCall) {
   } else if ("onNotificationRemoved" == methodCall.method) {
     _onNotificationRemovedController.add(methodCall.arguments);
   } else if ("onNotificationClickedWithNoAction" == methodCall.method) {
-    _onNotificationClickedWithNoActionController.add(OnNotificationClickedWithNoAction(
-        methodCall.arguments["title"],
-        methodCall.arguments["summary"],
-        methodCall.arguments["extras"]));
+    _onNotificationClickedWithNoActionController.add(
+        OnNotificationClickedWithNoAction(methodCall.arguments["title"],
+            methodCall.arguments["summary"], methodCall.arguments["extras"]));
   } else if ("onNotificationReceivedInApp" == methodCall.method) {
     _onNotificationReceivedInAppController.add(OnNotificationReceivedInApp(
         methodCall.arguments["title"],

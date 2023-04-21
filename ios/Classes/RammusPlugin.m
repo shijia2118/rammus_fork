@@ -32,8 +32,8 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    if ([@"initCloudChannel" isEqualToString:call.method]) {
-
+    if ([@"init_push" isEqualToString:call.method]) {
+        [self initPushSdk:call result: result];
     } else if ([@"deviceId" isEqualToString:call.method]) {
         result([CloudPushSDK getDeviceId]);
     } else if ([@"bindAccount" isEqualToString:call.method]) {
@@ -71,9 +71,7 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    _launchOptions = launchOptions;
-    [self registerAPNS:application];
-    [self initCloudPush];
+   
     [self listenerOnChannelOpened];
     [self registerMessageReceive];
     [CloudPushSDK sendNotificationAck:launchOptions];
@@ -87,10 +85,9 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
 /**
  *	向APNs注册，获取deviceToken用于推送
  *
- *	@param 	application
  */
 
-- (void)registerAPNS:(UIApplication *)application {
+- (void)registerAPNS {
     float systemVersionNum = [[[UIDevice currentDevice] systemVersion] floatValue];
     if (systemVersionNum >= 10.0) {
         // iOS 10 notifications
@@ -105,7 +102,7 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
                 NSLog(@"User authored notification.");
                 // 向APNs注册，获取deviceToken
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [application registerForRemoteNotifications];
+                    [[UIApplication sharedApplication] registerForRemoteNotifications];
                 });
             } else {
                 // not granted
@@ -116,11 +113,11 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
         // iOS 8 Notifications
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
-        [application registerUserNotificationSettings:
+        [[UIApplication sharedApplication] registerUserNotificationSettings:
                 [UIUserNotificationSettings settingsForTypes:
                                 (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge)
                                                   categories:nil]];
-        [application registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
 #pragma clang diagnostic pop
     } else {
         // iOS < 8 Notifications
@@ -169,20 +166,47 @@ UNNotificationPresentationOptions _notificationPresentationOption = UNNotificati
 
 #pragma mark SDK Init
 
-- (void)initCloudPush {
+- (void)initPushSdk:(FlutterMethodCall*)call result:(FlutterResult)result {
+    NSDictionary *arguments = call.arguments;
+    NSString *appKey = arguments[@"appKey"];
+    NSString *appSecret = arguments[@"appSecret"];
+    
     // 正式上线建议关闭
     [CloudPushSDK turnOnDebug];
+    
+    if (!appKey || !appKey.length) {
+        result(false);
+        return;
+    }
+
+    if (!appSecret|| !appSecret.length) {
+        result(false);
+        return;
+    }
+    
+               
+    //APNS注册，获取deviceToken并上报
+    [self registerAPNS];
+               
 
     // SDK初始化，无需输入配置信息
     // 请从控制台下载AliyunEmasServices-Info.plist配置文件，并正确拖入工程
     [CloudPushSDK autoInit:^(CloudPushCallbackResult *res) {
         if (res.success) {
             NSLog(@"Push SDK init success, deviceId: %@.", [CloudPushSDK getDeviceId]);
+            result(@true);
         } else {
             NSLog(@"Push SDK init failed, error: %@", res.error);
+            result(@false);
         }
     }];
+    
+    // 监听推送通道打开动作
+    [self listenerOnChannelOpened];
+    [self registerMessageReceive];
 }
+
+
 
 #pragma mark Channel Opened
 
